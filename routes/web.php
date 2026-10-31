@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/admin/dashboard', [DashboardController::class, 'index']);
 
 Route::get('/admin/profile', [UserController::class, 'index']);
+Route::post('/admin/profile', [UserController::class, 'update']);
 
 Auth::routes();
 
