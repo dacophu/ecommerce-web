@@ -109,8 +109,14 @@
                         href=""
                         data-toggle="dropdown"
                         aria-haspopup="true"
-                        aria-expanded="false"><img
-                            src="{{asset('admin/assets/images/users/1.jpg')}}"
+                        aria-expanded="false">
+                        <?php
+
+                        use Illuminate\Support\Facades\Auth;
+
+                        $data = Auth::user(); ?>
+                        <img
+                            src="{{asset('upload/user/avatar/'.$data->avatar)}}"
                             alt="user"
                             class="rounded-circle"
                             width="31" /></a>
