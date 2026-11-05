@@ -4,11 +4,19 @@ use App\Http\Controllers\admin\BlogController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CountryController;
+use App\Http\Controllers\frontend\LoginController;
+use App\Http\Controllers\frontend\RegisterController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/member/login', [LoginController::class, 'index']);
+Route::post('/member/login', [LoginController::class, 'login']);
+
+Route::get('/member/register', [RegisterController::class, 'index']);
+Route::post('/member/register', [RegisterController::class, 'insert']);
 
 Route::get('/admin/dashboard', [DashboardController::class, 'index']);
 
