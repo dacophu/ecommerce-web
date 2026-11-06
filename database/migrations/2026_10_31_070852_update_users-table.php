@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('address')->after('phone')->nullable();
             $table->integer('id_country')->after('address')->nullable();
             $table->string('avatar')->after('id_country')->nullable();
-            $table->unsignedInteger('level')->after('remember_token')->default(1)->comment('1:admin 0:member');
         });
     }
 

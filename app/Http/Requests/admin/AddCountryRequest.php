@@ -31,7 +31,7 @@ class AddCountryRequest extends FormRequest
     public function messages()
     {
         return [
-            'required' => ':attribute : không được để trống',
+            'required' => ':attribute : không được để trống'
         ];
     }
 }

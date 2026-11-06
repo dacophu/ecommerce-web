@@ -7,6 +7,7 @@ use App\Http\Requests\admin\CreateBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -24,7 +25,7 @@ class BlogController extends Controller
     public function insert(CreateBlogRequest $request)
     {
         $file = $request->image;
-        Blog::insert(["title" => $request->title, "image" => $file->getClientOriginalName(), "description" => $request->description, "content" => $request->content]);
+        Blog::insert(["title" => $request->title, "image" => $file->getClientOriginalName(), "description" => $request->description, "content" => $request->content, "id_user" => Auth::id(), "created_at" => now(), "updated_at" => now()]);
         $file->move('upload/blog', $file->getClientOriginalName());
         $data = Blog::all();
         return view('admin/blog/blog', compact('data'));
