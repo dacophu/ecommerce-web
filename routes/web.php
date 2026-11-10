@@ -24,6 +24,8 @@ Route::get('/blog', [FrontendBlogController::class, 'index']);
 Route::get('/blog/page/{page}', [FrontendBlogController::class, 'changePage']);
 Route::get('/blog/{id}', [FrontendBlogController::class, 'index2']);
 
+Route::post('blog/rate/ajax', [FrontendBlogController::class, 'rate']);
+
 //Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index']);
 

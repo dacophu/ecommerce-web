@@ -1,4 +1,5 @@
 @extends('frontend.layout.main')
+<link rel="stylesheet" href="{{asset('frontend/css/rate.css')}}">
 
 @section('content')
 
@@ -139,7 +140,7 @@
                     </div><!--/price-range-->
 
                     <div class="shipping text-center"><!--shipping-->
-                        <img src="images/home/shipping.jpg" alt="" />
+                        <img src="{{asset('frontend/images/home/shipping.jpg')}}" alt="" />
                     </div><!--/shipping-->
                 </div>
             </div>
@@ -180,14 +181,17 @@
                 <div class="rating-area">
                     <ul class="ratings">
                         <li class="rate-this">Rate this item:</li>
-                        <li>
-                            <i class="fa fa-star color"></i>
-                            <i class="fa fa-star color"></i>
-                            <i class="fa fa-star color"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </li>
-                        <li class="color">(6 votes)</li>
+                        <div class="rate">
+                            <div class="vote">
+                                <div class="star_1 ratings_stars"><input value="1" type="hidden"></div>
+                                <div class="star_2 ratings_stars"><input value="2" type="hidden"></div>
+                                <div class="star_3 ratings_stars"><input value="3" type="hidden"></div>
+                                <div class="star_4 ratings_stars"><input value="4" type="hidden"></div>
+                                <div class="star_5 ratings_stars"><input value="5" type="hidden"></div>
+                                <span class="rate-np">{{$rate}}</span>
+                            </div>
+                        </div>
+                        <li class="color">({{$count}} votes)</li>
                     </ul>
                     <ul class="tag">
                         <li>TAG:</li>
@@ -198,7 +202,7 @@
                 </div><!--/rating-area-->
 
                 <div class="socials-share">
-                    <a href=""><img src="images/blog/socials.png" alt=""></a>
+                    <a href=""><img src="{{asset('frontend/images/blog/socials.png')}}" alt=""></a>
                 </div><!--/socials-share-->
 
                 <!-- <div class="media commnets">
@@ -225,7 +229,7 @@
                         <li class="media">
 
                             <a class="pull-left" href="#">
-                                <img class="media-object" src="images/blog/man-two.jpg" alt="">
+                                <img class="media-object" src="{{asset('frontend/images/blog/man-two.jpg')}}" alt="">
                             </a>
                             <div class="media-body">
                                 <ul class="sinlge-post-meta">
@@ -239,7 +243,7 @@
                         </li>
                         <li class="media second-media">
                             <a class="pull-left" href="#">
-                                <img class="media-object" src="images/blog/man-three.jpg" alt="">
+                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
                             </a>
                             <div class="media-body">
                                 <ul class="sinlge-post-meta">
@@ -253,7 +257,7 @@
                         </li>
                         <li class="media second-media">
                             <a class="pull-left" href="#">
-                                <img class="media-object" src="images/blog/man-three.jpg" alt="">
+                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
                             </a>
                             <div class="media-body">
                                 <ul class="sinlge-post-meta">
@@ -267,7 +271,7 @@
                         </li>
                         <li class="media second-media">
                             <a class="pull-left" href="#">
-                                <img class="media-object" src="images/blog/man-three.jpg" alt="">
+                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
                             </a>
                             <div class="media-body">
                                 <ul class="sinlge-post-meta">
@@ -281,7 +285,7 @@
                         </li>
                         <li class="media">
                             <a class="pull-left" href="#">
-                                <img class="media-object" src="images/blog/man-four.jpg" alt="">
+                                <img class="media-object" src="{{asset('frontend/images/blog/man-four.jpg')}}" alt="">
                             </a>
                             <div class="media-body">
                                 <ul class="sinlge-post-meta">
@@ -295,7 +299,7 @@
                         </li>
                         <li class="media second-media">
                             <a class="pull-left" href="#">
-                                <img class="media-object" src="images/blog/man-three.jpg" alt="">
+                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
                             </a>
                             <div class="media-body">
                                 <ul class="sinlge-post-meta">
@@ -309,7 +313,7 @@
                         </li>
                         <li class="media second-media">
                             <a class="pull-left" href="#">
-                                <img class="media-object" src="images/blog/man-three.jpg" alt="">
+                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
                             </a>
                             <div class="media-body">
                                 <ul class="sinlge-post-meta">
@@ -323,7 +327,7 @@
                         </li>
                         <li class="media second-media">
                             <a class="pull-left" href="#">
-                                <img class="media-object" src="images/blog/man-three.jpg" alt="">
+                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
                             </a>
                             <div class="media-body">
                                 <ul class="sinlge-post-meta">
@@ -357,5 +361,65 @@
         </div>
     </div>
 </section>
+
+<script>
+    $(document).ready(function() {
+        const stars = document.querySelectorAll(".ratings_stars");
+
+        stars.forEach((item) => {
+            if (parseInt(item.querySelector("input").value) <= parseInt("{{$rate}}")) {
+                item.classList.add("ratings_over");
+            }
+        });
+        //vote
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('.ratings_stars').hover(
+            // Handles the mouseover
+            function() {
+                $(this).prevAll().andSelf().addClass('ratings_hover');
+                // $(this).nextAll().removeClass('ratings_vote'); 
+            },
+            function() {
+                $(this).prevAll().andSelf().removeClass('ratings_hover');
+                // set_votes($(this).parent());
+            }
+        );
+
+        $('.ratings_stars').click(function() {
+            var checkLogin = "{{Auth::Check()}}";
+            if (checkLogin) {
+                var Values = $(this).find("input").val();
+                alert(Values);
+                if ($(this).hasClass('ratings_over')) {
+                    $('.ratings_stars').removeClass('ratings_over');
+                    $(this).prevAll().andSelf().addClass('ratings_over');
+                } else {
+                    $(this).prevAll().andSelf().addClass('ratings_over');
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('blog/rate/ajax')}}",
+                    data: {
+                        rate: Values,
+                        id_blog: "{{$blog->id}}",
+                        id_user: "{{Auth::id()}}"
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    }
+                })
+            } else {
+                alert('Vui lòng đăng nhập để đánh giá');
+            }
+
+        });
+    });
+</script>
 
 @endsection

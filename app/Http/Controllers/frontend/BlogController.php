@@ -5,6 +5,7 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\User;
+use App\Models\Rate;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -47,7 +48,22 @@ class BlogController extends Controller
             }
         }
 
-        return view('frontend/blog/blog-detail', compact('blog', 'pre', 'next'));
+        $rates = Rate::where('id_blog', $blog->id)->get();
+        $rate = 0;
+        foreach ($rates as $item) {
+            $rate += $item->rate;
+        }
+
+        if (count($rates) == 0) {
+            $rate = 0;
+        } else {
+            $rate = $rate / count($rates);
+        }
+        $rate = round($rate);
+
+        $count = count($rates);
+
+        return view('frontend/blog/blog-detail', compact('blog', 'rate', 'count', 'pre', 'next'));
     }
 
 
@@ -63,6 +79,11 @@ class BlogController extends Controller
         $data = $this->calculateData($currentPage, $blogs);
 
         return view('frontend/blog/blog', compact('data', 'pages', 'currentPage'));
+    }
+
+    public function rate(Request $request)
+    {
+        Rate::insert(["id_blog" => $request->id_blog, "id_user" => $request->id_user, "rate" => $request->rate]);
     }
 
     private function loadBlogs()
