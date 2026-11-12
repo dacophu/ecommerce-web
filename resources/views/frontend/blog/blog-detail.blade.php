@@ -266,7 +266,7 @@
 
                     </ul>
                 </div><!--/Response-area-->
-                <div class="replay-box">
+                <div class="replay-box" tag="mainBox">
                     <div class="row">
                         <div class="col-sm-12">
                             <h2>Leave a replay</h2>
@@ -365,7 +365,8 @@
                         data = data.data;
                         const cmtList = document.getElementById("cmtList");
 
-                        cmtList.innerHTML += ` <li class="media">
+                        cmtList.insertAdjacentHTML("afterend",
+                            ` <li class="media">
                             <a class="pull-left" href="#">
                                 <img width="100px" class="media-object" src="{{asset('upload/user/avatar/${data.avatar}')}}" alt="">
                             </a>
@@ -376,9 +377,25 @@
                                     <li><i class="fa fa-calendar"></i> ${data.date}</li>
                                 </ul>
                                 <p>${data.cmt}</p>
-                                <a class="btn btn-primary" tag = "${data.id}" ><i class="fa fa-reply"></i>Replay</a>
+                                <a class="btn btn-primary" tag = "${data.id}" id="replayBtn" ><i class="fa fa-reply"></i>Replay</a>
                             </div>
-                        </li>`;
+                        </li>`
+                        )
+
+                        // cmtList.innerHTML += ` <li class="media">
+                        //     <a class="pull-left" href="#">
+                        //         <img width="100px" class="media-object" src="{{asset('upload/user/avatar/${data.avatar}')}}" alt="">
+                        //     </a>
+                        //     <div class="media-body">
+                        //         <ul class="sinlge-post-meta">
+                        //             <li><i class="fa fa-user"></i>${data.name}</li>
+                        //             <li><i class="fa fa-clock-o"></i>${data.time}</li>
+                        //             <li><i class="fa fa-calendar"></i> ${data.date}</li>
+                        //         </ul>
+                        //         <p>${data.cmt}</p>
+                        //         <a class="btn btn-primary" tag = "${data.id}" ><i class="fa fa-reply"></i>Replay</a>
+                        //     </div>
+                        // </li>`;
 
                     }
                 })
@@ -391,9 +408,12 @@
         const replayBtn = document.querySelectorAll("#replayBtn");
         replayBtn.forEach((item) => {
             item.addEventListener("click", () => {
+                console.log("clicj");
                 let boxs = document.querySelectorAll(".replay-box");
                 boxs.forEach((box) => {
-                    box.style.display = "none";
+                    if (!(box.getAttribute("tag") == "mainBox")) {
+                        box.style.display = "none";
+                    }
                 })
 
                 const mediaBody = item.closest(".media-body");
