@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\User;
 use App\Models\Rate;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -63,7 +64,17 @@ class BlogController extends Controller
 
         $count = count($rates);
 
-        return view('frontend/blog/blog-detail', compact('blog', 'rate', 'count', 'pre', 'next'));
+        $cmts = Comment::where('id_blog', $id)->get();
+        foreach ($cmts as $cmt) {
+            $user = User::where('id', $cmt->id_user)->firstOrFail();
+            $cmt->avatar = $user->avatar;
+            $cmt->name = $user->name;
+            $time = explode(' ', $cmt->updated_at);
+            $cmt->date = $time[0];
+            $cmt->time = $time[1];
+        }
+
+        return view('frontend/blog/blog-detail', compact('blog', 'rate', 'count', 'cmts', 'pre', 'next'));
     }
 
 
@@ -84,6 +95,26 @@ class BlogController extends Controller
     public function rate(Request $request)
     {
         Rate::insert(["id_blog" => $request->id_blog, "id_user" => $request->id_user, "rate" => $request->rate]);
+    }
+
+    public function comment(Request $request)
+    {
+        $level = 0;
+        if ($request->level) {
+            $level = $request->level;
+        }
+        Comment::insert(["id_blog" => $request->id_blog, "id_user" => $request->id_user, "cmt" => $request->cmt, "level" => $level, "created_at" => now(), "updated_at" => now()]);
+
+        $data = Comment::where('id_blog', $request->id_blog)->orderBy('updated_at', 'desc')->firstOrFail();
+
+        $user = User::where('id', $data->id_user)->firstOrFail();
+        $data->avatar = $user->avatar;
+        $data->name = $user->name;
+        $time = explode(' ', $data->updated_at);
+        $data->date = $time[0];
+        $data->time = $time[1];
+
+        return response()->json(['data' => $data]);
     }
 
     private function loadBlogs()

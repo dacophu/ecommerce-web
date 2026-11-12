@@ -225,120 +225,45 @@
 					</div> --><!--Comments-->
                 <div class="response-area">
                     <h2>3 RESPONSES</h2>
-                    <ul class="media-list">
+                    <ul class="media-list" id="cmtList">
+                        @foreach($cmts as $cmt)
+                        @if($cmt->level==0)
                         <li class="media">
+                            <a class="pull-left" href="#">
+                                <img width="100px" class="media-object" src="{{asset('upload/user/avatar/'.$cmt->avatar)}}" alt="">
+                            </a>
+                            <div class="media-body">
+                                <ul class="sinlge-post-meta">
+                                    <li><i class="fa fa-user"></i>{{$cmt->name}}</li>
+                                    <li><i class="fa fa-clock-o"></i>{{$cmt->time}}</li>
+                                    <li><i class="fa fa-calendar"></i> {{$cmt->date}}</li>
+                                </ul>
+                                <p>{{$cmt->cmt}}</p>
+                                <a class="btn btn-primary" tag="{{$cmt->id}}" id="replayBtn"><i class="fa fa-reply"></i>Replay</a>
+                            </div>
+                        </li>
+                        @endif
+                        @foreach($cmts as $cmt2)
+                        @if($cmt2->level == $cmt->id)
+                        <li class="media second-media">
+                            <a class="pull-left" href="#">
+                                <img width="100px" class="media-object" src="{{asset('upload/user/avatar/'.$cmt2->avatar)}}" alt="">
+                            </a>
+                            <div class="media-body">
+                                <ul class="sinlge-post-meta">
+                                    <li><i class="fa fa-user"></i>{{$cmt2->name}}</li>
+                                    <li><i class="fa fa-clock-o"></i>{{$cmt2->time}}</li>
+                                    <li><i class="fa fa-calendar"></i> {{$cmt2->date}}</li>
+                                </ul>
+                                <p>{{$cmt2->cmt}}</p>
+                                <a class="btn btn-primary" tag="{{$cmt2->id}}" id="replayBtn"><i class="fa fa-reply"></i>Replay</a>
+                            </div>
+                        </li>
+                        @endif
+                        @endforeach
+                        @endforeach
 
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="{{asset('frontend/images/blog/man-two.jpg')}}" alt="">
-                            </a>
-                            <div class="media-body">
-                                <ul class="sinlge-post-meta">
-                                    <li><i class="fa fa-user"></i>Janis Gallagher</li>
-                                    <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
-                                    <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
-                                </ul>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
-                            </div>
-                        </li>
-                        <li class="media second-media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
-                            </a>
-                            <div class="media-body">
-                                <ul class="sinlge-post-meta">
-                                    <li><i class="fa fa-user"></i>Janis Gallagher</li>
-                                    <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
-                                    <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
-                                </ul>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
-                            </div>
-                        </li>
-                        <li class="media second-media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
-                            </a>
-                            <div class="media-body">
-                                <ul class="sinlge-post-meta">
-                                    <li><i class="fa fa-user"></i>Janis Gallagher</li>
-                                    <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
-                                    <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
-                                </ul>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
-                            </div>
-                        </li>
-                        <li class="media second-media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
-                            </a>
-                            <div class="media-body">
-                                <ul class="sinlge-post-meta">
-                                    <li><i class="fa fa-user"></i>Janis Gallagher</li>
-                                    <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
-                                    <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
-                                </ul>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
-                            </div>
-                        </li>
-                        <li class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="{{asset('frontend/images/blog/man-four.jpg')}}" alt="">
-                            </a>
-                            <div class="media-body">
-                                <ul class="sinlge-post-meta">
-                                    <li><i class="fa fa-user"></i>Janis Gallagher</li>
-                                    <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
-                                    <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
-                                </ul>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
-                            </div>
-                        </li>
-                        <li class="media second-media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
-                            </a>
-                            <div class="media-body">
-                                <ul class="sinlge-post-meta">
-                                    <li><i class="fa fa-user"></i>Janis Gallagher</li>
-                                    <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
-                                    <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
-                                </ul>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
-                            </div>
-                        </li>
-                        <li class="media second-media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
-                            </a>
-                            <div class="media-body">
-                                <ul class="sinlge-post-meta">
-                                    <li><i class="fa fa-user"></i>Janis Gallagher</li>
-                                    <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
-                                    <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
-                                </ul>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
-                            </div>
-                        </li>
-                        <li class="media second-media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="{{asset('frontend/images/blog/man-three.jpg')}}" alt="">
-                            </a>
-                            <div class="media-body">
-                                <ul class="sinlge-post-meta">
-                                    <li><i class="fa fa-user"></i>Janis Gallagher</li>
-                                    <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
-                                    <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
-                                </ul>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
-                            </div>
-                        </li>
+
                     </ul>
                 </div><!--/Response-area-->
                 <div class="replay-box">
@@ -351,8 +276,8 @@
                                     <label>Your Name</label>
                                 </div>
                                 <span>*</span>
-                                <textarea name="message" rows="11"></textarea>
-                                <a class="btn btn-primary" href="">post comment</a>
+                                <textarea name="message" id="comment" rows="11"></textarea>
+                                <a class="btn btn-primary" id="cmtBtn">post comment</a>
                             </div>
                         </div>
                     </div>
@@ -419,6 +344,123 @@
             }
 
         });
+
+        //cmt
+        const cmtBtn = document.getElementById("cmtBtn");
+
+        cmtBtn.addEventListener("click", () => {
+            var checkLogin = "{{Auth::Check()}}";
+            if (checkLogin) {
+                const comment = document.getElementById("comment");
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('blog/comment/ajax')}}",
+                    data: {
+                        id_blog: "{{$blog->id}}",
+                        id_user: "{{Auth::id()}}",
+                        cmt: comment.value
+                    },
+                    success: function(data) {
+                        data = data.data;
+                        const cmtList = document.getElementById("cmtList");
+
+                        cmtList.innerHTML += ` <li class="media">
+                            <a class="pull-left" href="#">
+                                <img width="100px" class="media-object" src="{{asset('upload/user/avatar/${data.avatar}')}}" alt="">
+                            </a>
+                            <div class="media-body">
+                                <ul class="sinlge-post-meta">
+                                    <li><i class="fa fa-user"></i>${data.name}</li>
+                                    <li><i class="fa fa-clock-o"></i>${data.time}</li>
+                                    <li><i class="fa fa-calendar"></i> ${data.date}</li>
+                                </ul>
+                                <p>${data.cmt}</p>
+                                <a class="btn btn-primary" tag = "${data.id}" ><i class="fa fa-reply"></i>Replay</a>
+                            </div>
+                        </li>`;
+
+                    }
+                })
+            } else {
+                alert('Vui lòng đăng nhập để bình luận');
+            }
+        })
+
+        //replay 
+        const replayBtn = document.querySelectorAll("#replayBtn");
+        replayBtn.forEach((item) => {
+            item.addEventListener("click", () => {
+                let boxs = document.querySelectorAll(".replay-box");
+                boxs.forEach((box) => {
+                    box.style.display = "none";
+                })
+
+                const mediaBody = item.closest(".media-body");
+                let replayBox = mediaBody.querySelector(".replay-box");
+
+                if (replayBox) {
+                    replayBox.style.display = "block";
+                } else {
+                    mediaBody.insertAdjacentHTML("beforeend",
+                        `<div class="replay-box">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h2>Leave a replay</h2>
+                                    <div class="text-area">
+                                        <div class="blank-arrow">
+                                            <label>Your Name</label>
+                                        </div>
+                                        <span>*</span>
+                                        <textarea name="message" id="comment" rows="11"></textarea>
+                                        <a class="btn btn-primary" id="cmtBtn">post comment</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`)
+                }
+
+                mediaBody.querySelector("#cmtBtn").addEventListener("click", () => {
+                    var checkLogin = "{{Auth::Check()}}";
+                    if (checkLogin) {
+                        const comment = mediaBody.querySelector("#comment");
+
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{url('blog/comment/ajax')}}",
+                            data: {
+                                id_blog: "{{$blog->id}}",
+                                id_user: "{{Auth::id()}}",
+                                cmt: comment.value,
+                                level: item.getAttribute("tag"),
+                            },
+                            success: function(data) {
+                                mediaBody.querySelector(".replay-box").style.display = "none";
+                                data = data.data;
+                                mediaBody.insertAdjacentHTML("afterend",
+                                    `<li class="media second-media">
+								<a class="pull-left" href="#">
+                                <img width="100px" class="media-object" src="{{asset('upload/user/avatar/${data.avatar}')}}" alt="">
+								</a>
+								<div class="media-body">
+									<ul class="sinlge-post-meta">
+										<li><i class="fa fa-user"></i>${data.name}</li>
+										<li><i class="fa fa-clock-o"></i>${data.time}</li>
+										<li><i class="fa fa-calendar"></i>${data.date}</li>
+									</ul>
+									<p>${data.cmt}</p>
+									<a class="btn btn-primary" tag = "${data.id}" ><i class="fa fa-reply"></i>Replay</a>
+								</div>
+							</li>`)
+                            }
+                        })
+                    } else {
+                        alert('Vui lòng đăng nhập để bình luận');
+                    }
+                })
+
+            })
+        })
     });
 </script>
 
