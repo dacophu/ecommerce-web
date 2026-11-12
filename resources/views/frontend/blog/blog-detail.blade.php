@@ -351,7 +351,7 @@
         cmtBtn.addEventListener("click", () => {
             var checkLogin = "{{Auth::Check()}}";
             if (checkLogin) {
-                const comment = document.getElementById("comment");
+                const comment = cmtBtn.closest("div").querySelector("#comment");
 
                 $.ajax({
                     type: 'POST',
@@ -365,7 +365,7 @@
                         data = data.data;
                         const cmtList = document.getElementById("cmtList");
 
-                        cmtList.insertAdjacentHTML("afterend",
+                        cmtList.insertAdjacentHTML("beforeend",
                             ` <li class="media">
                             <a class="pull-left" href="#">
                                 <img width="100px" class="media-object" src="{{asset('upload/user/avatar/${data.avatar}')}}" alt="">
@@ -377,25 +377,10 @@
                                     <li><i class="fa fa-calendar"></i> ${data.date}</li>
                                 </ul>
                                 <p>${data.cmt}</p>
-                                <a class="btn btn-primary" tag = "${data.id}" id="replayBtn" ><i class="fa fa-reply"></i>Replay</a>
+                                <a class="btn btn-primary" tag = "${data.id}"  id="replayBtn" ><i class="fa fa-reply"></i>Replay</a>
                             </div>
                         </li>`
                         )
-
-                        // cmtList.innerHTML += ` <li class="media">
-                        //     <a class="pull-left" href="#">
-                        //         <img width="100px" class="media-object" src="{{asset('upload/user/avatar/${data.avatar}')}}" alt="">
-                        //     </a>
-                        //     <div class="media-body">
-                        //         <ul class="sinlge-post-meta">
-                        //             <li><i class="fa fa-user"></i>${data.name}</li>
-                        //             <li><i class="fa fa-clock-o"></i>${data.time}</li>
-                        //             <li><i class="fa fa-calendar"></i> ${data.date}</li>
-                        //         </ul>
-                        //         <p>${data.cmt}</p>
-                        //         <a class="btn btn-primary" tag = "${data.id}" ><i class="fa fa-reply"></i>Replay</a>
-                        //     </div>
-                        // </li>`;
 
                     }
                 })
@@ -405,25 +390,27 @@
         })
 
         //replay 
-        const replayBtn = document.querySelectorAll("#replayBtn");
-        replayBtn.forEach((item) => {
-            item.addEventListener("click", () => {
-                console.log("clicj");
-                let boxs = document.querySelectorAll(".replay-box");
-                boxs.forEach((box) => {
-                    if (!(box.getAttribute("tag") == "mainBox")) {
-                        box.style.display = "none";
-                    }
-                })
+        const cmtList = document.getElementById("cmtList");
 
-                const mediaBody = item.closest(".media-body");
-                let replayBox = mediaBody.querySelector(".replay-box");
+        cmtList.addEventListener("click", (e) => {
+            const item = e.target.closest("#replayBtn");
+            console.log(item);
+            if (!item) return;
 
-                if (replayBox) {
-                    replayBox.style.display = "block";
-                } else {
-                    mediaBody.insertAdjacentHTML("beforeend",
-                        `<div class="replay-box">
+            let mediaBody = item.closest(".media-body");
+
+            document.querySelectorAll(".replay-box").forEach(box => {
+                if (box.getAttribute("tag") !== "mainBox") {
+                    box.style.display = "none";
+                }
+            });
+            let replayBox = mediaBody.querySelector(".replay-box");
+
+            if (replayBox) {
+                replayBox.style.display = "block";
+            } else {
+                mediaBody.insertAdjacentHTML("beforeend",
+                    `<div class="replay-box">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <h2>Leave a replay</h2>
@@ -438,27 +425,26 @@
                                 </div>
                             </div>
                         </div>`)
-                }
+            }
+            mediaBody.querySelector("#cmtBtn").onclick = () => {
+                var checkLogin = "{{Auth::Check()}}";
+                if (checkLogin) {
+                    const comment = mediaBody.querySelector("#comment");
 
-                mediaBody.querySelector("#cmtBtn").addEventListener("click", () => {
-                    var checkLogin = "{{Auth::Check()}}";
-                    if (checkLogin) {
-                        const comment = mediaBody.querySelector("#comment");
-
-                        $.ajax({
-                            type: 'POST',
-                            url: "{{url('blog/comment/ajax')}}",
-                            data: {
-                                id_blog: "{{$blog->id}}",
-                                id_user: "{{Auth::id()}}",
-                                cmt: comment.value,
-                                level: item.getAttribute("tag"),
-                            },
-                            success: function(data) {
-                                mediaBody.querySelector(".replay-box").style.display = "none";
-                                data = data.data;
-                                mediaBody.insertAdjacentHTML("afterend",
-                                    `<li class="media second-media">
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{url('blog/comment/ajax')}}",
+                        data: {
+                            id_blog: "{{$blog->id}}",
+                            id_user: "{{Auth::id()}}",
+                            cmt: comment.value,
+                            level: item.getAttribute("tag"),
+                        },
+                        success: function(data) {
+                            mediaBody.querySelector(".replay-box").style.display = "none";
+                            data = data.data;
+                            mediaBody.closest(".media").insertAdjacentHTML("afterend",
+                                `<li class="media second-media">
 								<a class="pull-left" href="#">
                                 <img width="100px" class="media-object" src="{{asset('upload/user/avatar/${data.avatar}')}}" alt="">
 								</a>
@@ -472,16 +458,16 @@
 									<a class="btn btn-primary" tag = "${data.id}" ><i class="fa fa-reply"></i>Replay</a>
 								</div>
 							</li>`)
-                            }
-                        })
-                    } else {
-                        alert('Vui lòng đăng nhập để bình luận');
-                    }
-                })
+                        }
+                    })
 
-            })
+                } else {
+                    alert('Vui lòng đăng nhập để bình luận');
+                }
+            }
         })
-    });
+
+    })
 </script>
 
 @endsection
