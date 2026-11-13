@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\BlogController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CountryController;
+use App\Http\Controllers\frontend\AccountController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
 use App\Http\Controllers\frontend\LoginController;
 use App\Http\Controllers\frontend\RegisterController;
@@ -26,6 +27,9 @@ Route::get('/blog/{id}', [FrontendBlogController::class, 'index2']);
 
 Route::post('blog/rate/ajax', [FrontendBlogController::class, 'rate']);
 Route::post('blog/comment/ajax', [FrontendBlogController::class, 'comment']);
+
+Route::get('/account', [AccountController::class, 'index']);
+Route::post('/account/update', [AccountController::class, 'update']);
 
 //Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index']);
