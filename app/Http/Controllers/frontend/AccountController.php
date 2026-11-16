@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Country;
 use App\Http\Requests\Admin\UpdateProfileRequest;
 use App\Models\User;
+use App\Models\Product;
 
 class AccountController extends Controller
 {
@@ -45,5 +46,22 @@ class AccountController extends Controller
         } else {
             return redirect()->back()->withErrors('Update profile error');
         }
+    }
+
+    public function myProduct()
+    {
+        $id = Auth::id();
+        $products =  Product::where('id_user', $id)->get();
+        foreach ($products as $product) {
+            $arr = json_decode($product->hinhanh, true);
+            $product->image = $arr[0];
+        }
+        // dd($products);
+        return view('frontend/account/my-product', compact('products'));
+    }
+
+    public function addProduct()
+    {
+        return view('frontend/account/add-product');
     }
 }

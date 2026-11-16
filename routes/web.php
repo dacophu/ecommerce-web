@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\CountryController;
 use App\Http\Controllers\frontend\AccountController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
 use App\Http\Controllers\frontend\LoginController;
+use App\Http\Controllers\frontend\ProductController;
 use App\Http\Controllers\frontend\RegisterController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,9 @@ Route::post('blog/comment/ajax', [FrontendBlogController::class, 'comment']);
 
 Route::get('/account', [AccountController::class, 'index']);
 Route::post('/account/update', [AccountController::class, 'update']);
+Route::get('/account/my-product', [AccountController::class, 'myProduct']);
+Route::get('/account/add-product', [ProductController::class, 'add']);
+Route::post('/account/add-product', [ProductController::class, 'create']);
 
 //Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index']);
