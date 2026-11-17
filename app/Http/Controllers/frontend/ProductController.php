@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Intervention\Image\Laravel\Facades\Image;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -21,24 +21,36 @@ class ProductController extends Controller
         $brands = Brand::all();
         return view('frontend/account/add-product', compact('categories', 'brands'));
     }
-
-    public function create(AddProductRequest $request)
+    private function getProductImages($request)
     {
         $data = [];
         if ($request->file('images')) {
             foreach ($request->file('images') as $xx) {
                 $image = Image::read($xx);
 
-                $name = $xx->getClientOriginalName();
-                $name_2 = "hinh2_" . $xx->getClientOriginalName();
-                $name_3 = "hinh3_" . $xx->getClientOriginalName();
+                // $name = now() . $xx->getClientOriginalName();
+                $name = date('Y-m-d_H-i-s') . $xx->getClientOriginalName();
+
+                $name_2 = "hinh2_" . $name;
+                $name_3 = "hinh3_" . $name;
 
                 //$image->move('upload/product/', $name);
 
+                $id_user = Auth::id();
 
-                $path = public_path('upload/product/' . $name);
-                $path2 = public_path('upload/product/' . $name_2);
-                $path3 = public_path('upload/product/' . $name_3);
+                $folder = public_path('upload/product/' . $id_user);
+
+                if (!File::exists($folder)) {
+                    File::makeDirectory($folder, 0777, true);
+                }
+
+                $path = $folder . '/' . $name;
+                $path2 = $folder . '/' . $name_2;
+                $path3 = $folder . '/' . $name_3;
+
+                // $path = public_path('upload/product/' . $id_user . '/' . $name);
+                // $path2 = public_path('upload/product/' . $id_user . '/' . $name_2);
+                // $path3 = public_path('upload/product/' . $id_user . '/' . $name_3);
 
                 $image->save($path);
                 $image->resize(85, 84)->save($path2);
@@ -48,6 +60,12 @@ class ProductController extends Controller
             }
             // dd($data);
         }
+        return $data;
+    }
+
+    public function create(AddProductRequest $request)
+    {
+        $data = $this->getProductImages($request);
 
         $product = new Product();
         $product->id_user  =  Auth::id();
@@ -85,35 +103,15 @@ class ProductController extends Controller
         foreach ($arr as $key => $value) {
             if (in_array($value, $hinhxoa)) {
                 unset($arr[$key]);
+                $id_user = Auth::id();
+                unlink('upload/product/' . $id_user . '/' . $value);
             }
         }
         $arr = array_values($arr);
         if (count($arr) + count($request->images) > 3) {
             return redirect()->back()->withErrors('Hình ảnh không được nhiều hơn 3');
         } else {
-            $data = [];
-            if ($request->file('images')) {
-                foreach ($request->file('images') as $xx) {
-                    $image = Image::read($xx);
-
-                    $name = $xx->getClientOriginalName();
-                    $name_2 = "hinh2_" . $xx->getClientOriginalName();
-                    $name_3 = "hinh3_" . $xx->getClientOriginalName();
-
-                    //$image->move('upload/product/', $name);
-
-
-                    $path = public_path('upload/product/' . $name);
-                    $path2 = public_path('upload/product/' . $name_2);
-                    $path3 = public_path('upload/product/' . $name_3);
-
-                    $image->save($path);
-                    $image->resize(85, 84)->save($path2);
-                    $image->resize(329, 380)->save($path3);
-
-                    $data[] = $name;
-                }
-            }
+            $data = $this->getProductImages($request);
             $data = array_merge($arr, $data);
             //dd($data);
             $product->name  = $request->name;
@@ -128,5 +126,20 @@ class ProductController extends Controller
             $product->save();
             return redirect()->back()->with('success', __('Update product success'));
         }
+    }
+
+    public function delete($id)
+    {
+        $product = Product::where('id', $id)->firstOrFail();
+        $product->hinhanh = json_decode($product->hinhanh, true);
+        foreach ($product->hinhanh as $item) {
+            $id_user = Auth::id();
+            unlink('upload/product/' . $id_user . '/' . $item);
+            unlink('upload/product/' . $id_user . '/' . 'hinh2_' . $item);
+            unlink('upload/product/' . $id_user . '/' . 'hinh3_' . $item);
+        }
+        $product->delete();
+
+        return redirect()->back()->with('success', __('Delete product success'));
     }
 }

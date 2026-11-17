@@ -51,7 +51,7 @@
 
                                 <td class="cart_total">
                                     <a href="{{url('/account/edit-product/'.$product->id)}}">edit</a>
-                                    <a>delete</a>
+                                    <a href="{{url('/account/delete-product/'.$product->id)}}">delete</a>
                                 </td>
 
                             </tr>

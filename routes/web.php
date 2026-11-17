@@ -40,6 +40,7 @@ Route::get('/account/add-product', [ProductController::class, 'add']);
 Route::post('/account/add-product', [ProductController::class, 'create']);
 Route::get('/account/edit-product/{id}', [ProductController::class, 'edit']);
 Route::post('/account/edit-product/{id}', [ProductController::class, 'update']);
+Route::get('/account/delete-product/{id}', [ProductController::class, 'delete']);
 
 //Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index']);
