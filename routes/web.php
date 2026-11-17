@@ -16,6 +16,10 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //frontend
+Route::get('/', function () {
+    return view('frontend/home/home');
+});
+
 Route::get('/member/login', [LoginController::class, 'index']);
 Route::post('/member/login', [LoginController::class, 'login']);
 
@@ -34,6 +38,8 @@ Route::post('/account/update', [AccountController::class, 'update']);
 Route::get('/account/my-product', [AccountController::class, 'myProduct']);
 Route::get('/account/add-product', [ProductController::class, 'add']);
 Route::post('/account/add-product', [ProductController::class, 'create']);
+Route::get('/account/edit-product/{id}', [ProductController::class, 'edit']);
+Route::post('/account/edit-product/{id}', [ProductController::class, 'update']);
 
 //Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index']);

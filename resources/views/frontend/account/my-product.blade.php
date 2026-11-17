@@ -50,7 +50,7 @@
                                 </td>
 
                                 <td class="cart_total">
-                                    <a>edit</a>
+                                    <a href="{{url('/account/edit-product/'.$product->id)}}">edit</a>
                                     <a>delete</a>
                                 </td>
 
