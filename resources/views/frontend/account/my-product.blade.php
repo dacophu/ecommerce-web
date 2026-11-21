@@ -39,7 +39,7 @@
                             @foreach($products as $product)
                             <tr>
                                 <td class="cart_product">
-                                    <a href=""><img src="{{asset('upload/product/hinh2_'.$product->image)}}" alt=""></a>
+                                    <a href=""><img src="{{asset('upload/product/'.Auth::id().'/hinh2_'.$product->image)}}" alt=""></a>
                                 </td>
                                 <td class="cart_description">
                                     <h4><a href="">{{$product->name}}</a></h4>

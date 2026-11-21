@@ -15,6 +15,16 @@ use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
+    public function index($id)
+    { //product-detail
+        $product = Product::where('id', $id)->firstOrFail();
+        $images = json_decode($product->hinhanh, true);
+        $selectedImage = $images[0];
+        $brand = Brand::where('id', $product->id_brand)->firstOrFail();
+
+        return view('frontend/product/product-details', compact('product', 'images', 'selectedImage', 'brand'));
+    }
+
     public function add()
     {
         $categories = Category::all();
@@ -141,5 +151,29 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->back()->with('success', __('Delete product success'));
+    }
+
+    public function addToCart(Request $request)
+    {
+        $product = Product::where('id', $request->id)->firstOrFail();
+        $data = [];
+        if (session()->has('cart')) {
+            $data  = session()->get('cart');
+        }
+
+        $check = false;
+        foreach ($data as $item) {
+            if ($item->id == $product->id) {
+                $check = true;
+                $item->qty++;
+                break;
+            }
+        }
+        if (!$check) {
+            $product->qty = 1;
+            array_push($data, $product);
+        }
+        session()->put('cart', $data);
+        return response()->json(['data' => $data]);
     }
 }

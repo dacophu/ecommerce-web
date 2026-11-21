@@ -56,7 +56,7 @@
 
                             @foreach($product->hinhanh as $item)
                             <div style="display: inline-block; padding-right: 20px;">
-                                <img src="{{asset('upload/product/hinh2_'.$item)}}">
+                                <img src="{{asset('upload/product/'.Auth::id().'/hinh2_'.$item)}}">
                                 <input type="checkbox" name="hinhxoa[]" value="{{$item}}">
                             </div>
 

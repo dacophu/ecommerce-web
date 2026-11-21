@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CountryController;
 use App\Http\Controllers\frontend\AccountController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
+use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\LoginController;
 use App\Http\Controllers\frontend\ProductController;
 use App\Http\Controllers\frontend\RegisterController;
@@ -16,9 +17,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //frontend
-Route::get('/', function () {
-    return view('frontend/home/home');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/member/login', [LoginController::class, 'index']);
 Route::post('/member/login', [LoginController::class, 'login']);
@@ -41,6 +40,10 @@ Route::post('/account/add-product', [ProductController::class, 'create']);
 Route::get('/account/edit-product/{id}', [ProductController::class, 'edit']);
 Route::post('/account/edit-product/{id}', [ProductController::class, 'update']);
 Route::get('/account/delete-product/{id}', [ProductController::class, 'delete']);
+
+Route::get('/product-details/{id}', [ProductController::class, 'index']);
+
+Route::post('/product/add-to-cart/ajax', [ProductController::class, 'addToCart']);
 
 //Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index']);
