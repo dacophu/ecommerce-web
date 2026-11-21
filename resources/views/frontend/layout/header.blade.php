@@ -62,12 +62,17 @@
                             <li><a href="{{url('/account')}}"><i class="fa fa-user"></i> Account</a></li>
                             <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
                             <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                            <li><a href="" id="cart"><i class="fa fa-shopping-cart"></i>
+                            <li><a href="{{url('/cart')}}" id="cart"><i class="fa fa-shopping-cart"></i>
                                     @if(session()->has('cart'))
-                                    {{ count(session()->get('cart')) }}
-                                    @else
-                                    Cart
-                                    @endif</a></li>
+                                    @if(count(session()->get('cart'))<=0)
+                                        Cart
+                                        @else
+                                        {{ count(session()->get('cart')) }}
+                                        @endif
+                                        @else
+                                        Cart
+                                        @endif</a>
+                            </li>
                             @if(Auth::Check())
                             <li><a href="{{url('/member/logout')}}"><i class="fa fa-lock"></i> Logout</a></li>
                             @else

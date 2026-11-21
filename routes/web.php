@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CountryController;
 use App\Http\Controllers\frontend\AccountController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
+use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\LoginController;
 use App\Http\Controllers\frontend\ProductController;
@@ -40,10 +41,12 @@ Route::post('/account/add-product', [ProductController::class, 'create']);
 Route::get('/account/edit-product/{id}', [ProductController::class, 'edit']);
 Route::post('/account/edit-product/{id}', [ProductController::class, 'update']);
 Route::get('/account/delete-product/{id}', [ProductController::class, 'delete']);
-
 Route::get('/product-details/{id}', [ProductController::class, 'index']);
-
 Route::post('/product/add-to-cart/ajax', [ProductController::class, 'addToCart']);
+
+Route::get('/cart', [CartController::class, 'index']);
+Route::post('/cart/update-quantity/ajax', [CartController::class, 'updateQty']);
+Route::post('/cart/delete/ajax', [CartController::class, 'delete']);
 
 //Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index']);

@@ -657,9 +657,8 @@
                         },
                         success: function(data) {
                             data = data.data;
-                            console.log(data);
                             const cart = document.getElementById("cart");
-                            cart.innerHTML = `<i class="fa fa-shopping-cart"></i>${data.length}`;
+                            cart.innerHTML = `<i class="fa fa-shopping-cart"></i>${Object.keys(data).length}`;
                         }
                     })
                 })
