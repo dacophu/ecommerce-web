@@ -149,7 +149,7 @@
                     <div class="col-sm-5">
                         <div class="view-product">
                             <img id="bigImg" src="{{asset('upload/product/'.$product->id_user.'/'.$selectedImage)}}" alt="" />
-                            <a href="{{asset('upload/product/'.$product->id_user.'/'.$selectedImage)}}" rel="prettyPhoto">
+                            <a id="zoom" rel="prettyPhoto">
                                 <h3>ZOOM</h3>
                             </a>
 
@@ -510,6 +510,13 @@
                 bigImg.setAttribute("src", item.querySelector("img").getAttribute("src").replace('hinh2_', ""));
             })
         })
+
+        //zoom
+        const zoom = document.getElementById("zoom");
+        zoom.addEventListener("click", () => {
+            zoom.setAttribute("href", zoom.closest("div").querySelector("img").getAttribute("src").replace('hinh2_', ""));
+        })
+
 
         //add to cart
         const addBtn = document.querySelector(".product-information").querySelector("button");

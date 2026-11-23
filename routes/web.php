@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\CountryController;
 use App\Http\Controllers\frontend\AccountController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
 use App\Http\Controllers\frontend\CartController;
+use App\Http\Controllers\frontend\CheckoutController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\LoginController;
 use App\Http\Controllers\frontend\ProductController;
@@ -47,6 +48,8 @@ Route::post('/product/add-to-cart/ajax', [ProductController::class, 'addToCart']
 Route::get('/cart', [CartController::class, 'index']);
 Route::post('/cart/update-quantity/ajax', [CartController::class, 'updateQty']);
 Route::post('/cart/delete/ajax', [CartController::class, 'delete']);
+
+Route::get('/checkout', [CheckoutController::class, 'index']);
 
 //Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index']);
