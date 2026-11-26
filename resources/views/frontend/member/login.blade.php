@@ -15,6 +15,7 @@
                              <input type="checkbox" class="checkbox" name="remember_me">
                              Keep me signed in
                          </span>
+                         <a href="{{url('/member/register')}}">Signup new account ?</a>
                          <button type="submit" class="btn btn-default">Login</button>
                      </form>
                      @if($errors->any())

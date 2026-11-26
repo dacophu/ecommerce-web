@@ -12,11 +12,15 @@ use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\LoginController;
 use App\Http\Controllers\frontend\ProductController;
 use App\Http\Controllers\frontend\RegisterController;
+use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//mail
+Route::get('/test', [MailController::class, 'index']);
 
 //frontend
 Route::get('/', [HomeController::class, 'index']);
@@ -50,6 +54,10 @@ Route::post('/cart/update-quantity/ajax', [CartController::class, 'updateQty']);
 Route::post('/cart/delete/ajax', [CartController::class, 'delete']);
 
 Route::get('/checkout', [CheckoutController::class, 'index']);
+Route::post('/checkout/login', [CheckoutController::class, 'signin']);
+Route::get('/checkout/register', [CheckoutController::class, 'register']);
+Route::post('/checkout/register', [CheckoutController::class, 'signup']);
+Route::get('/checkout/order', [CheckoutController::class, 'order']);
 
 //Admin
 Route::get('/admin/dashboard', [DashboardController::class, 'index']);

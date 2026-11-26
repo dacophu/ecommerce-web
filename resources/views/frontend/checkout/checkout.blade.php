@@ -142,7 +142,7 @@
                             </div>
                         </td>
                         <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
+                            <p class="cart_total_price">$</p>
                         </td>
                         <td class="cart_delete">
                             <a class="cart_quantity_delete"><i class="fa fa-times"></i></a>
@@ -174,6 +174,7 @@
                     </tr>
                 </tbody>
             </table>
+            <a href="{{url('/checkout/order')}}" style="float: right;" class="btn btn-primary">Order</a>
         </div>
         <div class="payment-options">
             <span>
